@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorenz Attractor | Math Simulations</title>
+    <meta
+      name="description"
+      content="A sample simulation page with side-by-side Python code, a local MP4 slot, and an optional YouTube embed."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <a class="back-link" href="../index.html">← Back to homepage</a>
+
+      <header class="page-header">
+        <p class="eyebrow">Sample simulation page</p>
+        <h1>Lorenz attractor</h1>
+        <p class="lede">
+          This page demonstrates a clean teaching layout: a short mathematical
+          summary, syntax-highlighted Python code, a local video slot for short
+          MP4 demonstrations, and an optional YouTube video for longer context.
+        </p>
+
+        <div class="meta-grid">
+          <div class="meta-item">
+            <p class="meta-label">Topic</p>
+            <p>Chaos and dynamical systems</p>
+          </div>
+          <div class="meta-item">
+            <p class="meta-label">Files</p>
+            <p><code>examples/lorenz.py</code> and your MP4</p>
+          </div>
+          <div class="meta-item">
+            <p class="meta-label">Suggested use</p>
+            <p>Class notes, demonstrations, and student reference</p>
+          </div>
+        </div>
+
+        <div class="page-actions">
+          <a class="button button-primary" href="../examples/lorenz.py">Open Python File</a>
+          <a class="button button-secondary" href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+            Replace with your YouTube link
+          </a>
+        </div>
+      </header>
+
+      <section class="showcase-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Python code</h2>
+            <span class="badge">Loaded from file</span>
+          </div>
+          <p>
+            The code block below is loaded from
+            <code>examples/lorenz.py</code>, so you can keep your source code in
+            a normal Python file rather than duplicating it in the page.
+          </p>
+          <pre class="code-block"><code class="language-python" data-code-src="../examples/lorenz.py"></code></pre>
+        </article>
+
+        <div class="stack">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Local MP4 demo</h2>
+              <span class="badge">Short clip</span>
+            </div>
+          <p>
+              Place a file such as
+              <code>assets/videos/lorenz-demo.mp4</code> in the repo and update
+              the <code>src</code> below.
+            </p>
+            <video class="video-frame" controls preload="metadata">
+              <source src="../assets/videos/lorenz-demo.mp4" type="video/mp4" />
+              Your browser does not support HTML5 video.
+            </video>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>YouTube extension</h2>
+              <span class="badge">Optional</span>
+            </div>
+            <p>
+              Replace the iframe `src` with the embed link for your lecture or
+              longer explanation.
+            </p>
+            <div class="placeholder">
+              <p>
+                Update this page with your own YouTube embed URL when you are
+                ready.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="resource-grid">
+        <article class="note-card">
+          <h3>What students should notice</h3>
+          <ul class="resource-list">
+            <li>Nearby initial conditions can diverge quickly over time.</li>
+            <li>The trajectory remains bounded while never exactly repeating.</li>
+            <li>Small parameter changes can shift the geometry of the orbit.</li>
+          </ul>
+        </article>
+
+        <article class="resource-card">
+          <h3>Editing checklist</h3>
+          <ul class="resource-list">
+            <li>Change the title and short description.</li>
+            <li>Point `data-code-src` to a new Python file.</li>
+            <li>Replace the MP4 path with your clip.</li>
+            <li>Swap the placeholder for a YouTube iframe if desired.</li>
+          </ul>
+        </article>
+      </section>
+
+      <div class="footer-space"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="../scripts/site.js"></script>
+  </body>
+</html>

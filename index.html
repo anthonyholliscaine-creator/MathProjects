@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Simulations</title>
+    <meta
+      name="description"
+      content="A lightweight website for sharing mathematical simulations, Python code, and short demonstration videos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar">
+        <a class="wordmark" href="./">Math Simulations</a>
+        <a class="nav-link" href="#gallery">Browse Examples</a>
+      </nav>
+      <div class="hero-grid">
+        <section class="hero-copy">
+          <p class="eyebrow">Teaching-ready starter site</p>
+          <h1>Share simulations, code, and visual intuition in one place.</h1>
+          <p class="lede">
+            This starter is designed for short mathematical demonstrations with a
+            clean side-by-side layout for Python code, MP4 clips, and optional
+            YouTube lectures.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="./simulations/lorenz-attractor.html">
+              Open Sample Page
+            </a>
+            <a class="button button-secondary" href="#how-it-works">
+              See Structure
+            </a>
+          </div>
+        </section>
+        <aside class="hero-card">
+          <h2>What this starter includes</h2>
+          <ul class="feature-list">
+            <li>Static HTML, CSS, and JavaScript</li>
+            <li>Python syntax highlighting</li>
+            <li>Responsive code and media layout</li>
+            <li>Local MP4 support for short clips</li>
+            <li>Optional embedded YouTube videos</li>
+          </ul>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="how-it-works">
+        <div class="section-heading">
+          <p class="eyebrow">How to use it</p>
+          <h2>A simple pattern for each simulation</h2>
+        </div>
+        <div class="steps">
+          <article class="step-card">
+            <h3>1. Add your Python file</h3>
+            <p>
+              Place the source code in <code>examples/</code> and point a
+              simulation page at it with a <code>data-code-src</code>
+              attribute.
+            </p>
+          </article>
+          <article class="step-card">
+            <h3>2. Add a short MP4</h3>
+            <p>
+              Put small demonstration clips in <code>assets/videos/</code> and
+              use the HTML <code>&lt;video&gt;</code> element with controls.
+            </p>
+          </article>
+          <article class="step-card">
+            <h3>3. Link a longer explanation</h3>
+            <p>
+              Embed a YouTube lecture or talk when you want extra context beyond
+              the short simulation clip.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="gallery">
+        <div class="section-heading">
+          <p class="eyebrow">Starter content</p>
+          <h2>Hosted examples</h2>
+        </div>
+        <article class="simulation-card">
+          <div>
+            <p class="card-kicker">Manim animation</p>
+            <h3>Parabola average value</h3>
+            <p>
+              A real hosted example using your Manim script and MP4, with the
+              source code loaded directly from the Python file.
+            </p>
+          </div>
+          <a class="button button-primary" href="./simulations/parabola-average.html">
+            View Animation
+          </a>
+        </article>
+        <article class="simulation-card">
+          <div>
+            <p class="card-kicker">Template page</p>
+            <h3>Lorenz attractor starter</h3>
+            <p>
+              A reusable model page you can copy when adding more simulations,
+              proofs, or numerical demonstrations.
+            </p>
+          </div>
+          <a class="button button-secondary" href="./simulations/lorenz-attractor.html">
+            View Page
+          </a>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
