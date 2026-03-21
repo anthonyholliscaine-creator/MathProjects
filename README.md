@@ -32,7 +32,16 @@ Then visit `http://localhost:8000`.
 
 This site is designed to work well with GitHub Pages because it does not require a build step.
 
-The repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` for GitHub Pages deployment from `main`.
+To publish it the simple way:
+
+1. Push the repository to GitHub.
+2. Open the repository on GitHub.
+3. Go to `Settings` -> `Pages`.
+4. Under `Build and deployment`, choose `Deploy from a branch`.
+5. Set the branch to `main` and the folder to `/ (root)`.
+6. Save.
+
+GitHub will then host the files directly from this repository.
 
 ## Adding a New Simulation
 

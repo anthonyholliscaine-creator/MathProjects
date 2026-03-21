@@ -68,9 +68,11 @@ This repository is already connected to:
 The intended publishing path is:
 
 1. Push this repository to GitHub on the `main` branch.
-2. Enable GitHub Pages in the repository settings if needed.
-3. Let GitHub Actions deploy the static files from this repo.
-4. Visit the published Pages URL once deployment finishes.
+2. Open GitHub repository settings.
+3. Go to `Pages`.
+4. Set deployment to `Deploy from a branch`.
+5. Choose `main` and `/ (root)`.
+6. Visit the published Pages URL once deployment finishes.
 
 If this repository is the special user site repo for the account, the final URL may be the account root domain. If it is a normal project repo, GitHub Pages will typically publish it under a project subpath.
 
@@ -96,4 +98,4 @@ When adding a new animation:
 - Keep the site build-free unless there is a strong reason to introduce tooling.
 - Prefer editing the existing static structure over replacing it with a heavy framework.
 - Avoid removing user content or imported examples unless explicitly requested.
-- If deployment behavior depends on the exact GitHub Pages configuration, verify the repository settings before making assumptions.
+- Prefer direct branch-based GitHub Pages deployment unless the user explicitly wants more automation later.
