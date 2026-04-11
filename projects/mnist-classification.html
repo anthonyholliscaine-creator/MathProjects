@@ -100,7 +100,7 @@
           Exploiting these facts is the key to SVD's ability to classify the digits.
         </p>
         <p>
-          <strong>A little bit of Intuition/Explanation:</strong>
+          <!-- <strong>A little bit of Intuition/Explanation:</strong>
           A matrix can be though of as a function from \(n\)-dimensional space to \(m\)-dimensional space.
           <i>
             Think of casting a shadow from a 3D object to the 2D ground.
@@ -108,14 +108,15 @@
 
           Or, maybe a more apt question in this case is:
           <i>Given a 2D shadow, what is the most likely 3D object that created it?</i>
-          <br>
-          In any case, we have a 784-dimensional space of pixel values,
-          and we want to find the most likely digit that could have created a given image.
+          <br> -->
+          <!-- We have a 784-dimensional space of pixel values, but with a lot of redundancy.
+
+          and we want to find the most likely digit that could have created a given image. -->
           <!-- (In fact computers use matrices to do exactly this kind of thing when they render 3D graphics on a 2D screen.)
           Continuing with this shadow analogy, not all dimensions of the 3D object may matter, and the shadow may be
           well-approximated by a simpler object (like a 2D silhouette).-->
           The math can get a little deep here but the take away is that
-          SVD is a way to find the "most important" features of a vector.
+          SVD is a way to find the "most important" features of a matrix.
 
 
           The first "singular vector" (or "principal component") of the matrix \(A_0\)
@@ -133,28 +134,42 @@
 
           <br>
           It's smoother than the first 6 images in the training set because it's sort of an average.
-          It's also more round.
-          Do you notice how many of even the first six 0 digits in the training set
-          seem to slant along the southwest to northeast diagonal.
+          It's a very clear on/off white/black pattern that captures the overall shape of the "0" digit.
 
-          <br>
-          <strong>The second PC captures the typical SW to NE slanting</strong> .
+          <br><br>
+          PC2 looks very different with regard to the greyscale pattern.
+          Look back at the first 6 images of "0" in \(A_0\). Do you notice how many of even the first six 0 digits in
+          the training set
+          seem to slant along the southwest to northeast diagonal?
 
-          <br>
+          <br><br>
+
+          <strong>The second PC can exaggerate/suppress the typical SW to NE slanting</strong> .
+          This is what I mean when I say "Each additional vector captures the next most important feature of the data."
+          Apparently, that slanting of the digit is the most important feature, once the general shape is pinned
+          down.
+
+
+          <br><br>
           We can demonstrate this by taking a weighted average of the first two PCs:
           \[\text{NewImage} = (1-\alpha) \cdot \text{PC1} + \alpha \cdot \text{PC2},
           \quad 0 \le \alpha\le 1\]
           where \(\alpha\) controls how much of the second PC's slanting feature we add to the first
           PC.
 
-          Here is an example using \(\alpha=0.2\):
+          Here is an example for various \(\alpha\) values:
+          <img class="image-frame" src="../media/images/difAvgPC0.png" alt="various alpha averages of first two PCs" />
+
+          <!-- Here is an example using \(\alpha=0.2\):
           <img class="image-frame" src="../media/images/avgPC0.png" alt="Example of a weighted average of the first two principal components of 
               the '0' digit matrix in the MNIST training set, showing 
               how the second PC adds a slanting feature to 
-              the first PC's overall shape." />
+              the first PC's overall shape." /> -->
 
           <br>
-          To get a sense of how adding PC2 does this,
+          <strong>
+            To get a sense of how adding PC2 does this,
+          </strong>
           scan your eyes from the NW corner of PC2 to the SE corner and notice the extreme
           black/white variation along that diagonal.
           The black pixels in that variation subtract (or turn off) pixels.
@@ -162,10 +177,33 @@
           brightening pixels where PC2 is bright.
         </p>
         <p>
-          We can demonstrate this for various \(\alpha\) values:
-          <img class="image-frame" src="../media/images/difAvgPC0.png" alt="various alpha averages of first two PCs" />
-        </p>
+          For the exact same reason, we can take away the slanting feature by using a negative \(\alpha\) value:
+          \[\text{NewImage} = (1-\alpha) \cdot \text{PC1} - \alpha \cdot \text{PC2},
+          \quad 0 \le \alpha\le 1\]
+          Here is an example for various \(\alpha\) values:
+          <img class="image-frame" src="../media/images/PC1mPC2.png"
+            alt="various neg alpha averages of first two PCs" />
 
+        </p>
+        <p>
+          What I hope to make clear with these examples is that simply taking
+          a linear combination of the first two PCs can give us a wide variety of
+          "0" images.
+          Mathematically, we have compressed the 784 pixel information for each 0 digit image to just two dimensiont:
+          how much PC1 and PC2 to add.
+
+          <br><br>
+          Here are the first 2 PCs for each digit (other than zero):
+          <img class="image-frame" src="../media/images/PCallDigits.png" alt="First 2 PCs of digits 1-9" />
+
+
+          <strong>
+            If you want to test your understanding, try to imagine how the black/white space of each PC pair morph the
+            digit.
+          </strong>
+          (For example, look at the digit 2's PCs, what key difference do you see it picking up on?)
+
+        </p>
       </article>
 
       <!-- <div class="stack">

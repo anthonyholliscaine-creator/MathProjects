@@ -59,7 +59,7 @@ Use a structure like this:
 
 - Reuse the current site’s static approach and styling rather than introducing any framework.
 - Reuse the existing “code from file” pattern for Python examples where possible.
-- Add a new directory for the SVD section rather than mixing those pages into `simulations/`.
+- Add a new directory for the SVD section rather than mixing those pages into `projects/`.
 - Keep video support flexible:
   - short local MP4s for brief demonstrations
   - YouTube embeds or links for lecture/playlist material

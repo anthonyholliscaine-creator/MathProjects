@@ -11,11 +11,11 @@ The immediate goal is to publish the site on GitHub Pages and use it as a lightw
 - `index.html`: homepage for the site
 - `styles.css`: shared visual styling
 - `scripts/site.js`: loads Python source files into syntax-highlighted code blocks
-- `simulations/parabola-average.html`: hosted example page using a real Manim animation
-- `simulations/lorenz-attractor.html`: reusable template/example page
+- `projects/parabola-average.html`: hosted example page using a real Manim animation
+- `projects/lorenz-attractor.html`: reusable template/example page
 - `examples/cpu_sph_region.py`: imported Manim source file
 - `examples/lorenz.py`: sample Python example
-- `assets/videos/parabola_avg.mp4`: hosted MP4 for the parabola average-value animation
+- `media/videos/parabola_avg.mp4`: hosted MP4 for the parabola average-value animation
 
 ## User Context
 
@@ -38,12 +38,12 @@ The immediate goal is to publish the site on GitHub Pages and use it as a lightw
 
 The main real example at the moment is:
 
-- `simulations/parabola-average.html`
+- `projects/parabola-average.html`
 
 This page uses:
 
 - `examples/cpu_sph_region.py`
-- `assets/videos/parabola_avg.mp4`
+- `media/videos/parabola_avg.mp4`
 
 The animation shows a parabola, a particle-based fill of the region, and a horizontal line corresponding to the average value.
 
@@ -80,9 +80,9 @@ If this repository is the special user site repo for the account, the final URL 
 
 When adding a new animation:
 
-1. Copy an existing page in `simulations/`.
+1. Copy an existing page in `projects/`.
 2. Add the Python source file to `examples/`.
-3. Add the MP4 to `assets/videos/`.
+3. Add the MP4 to `media/videos/`.
 4. Update the page title, summary text, code source path, and video path.
 5. Add a homepage link from `index.html`.
 
