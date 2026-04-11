@@ -268,12 +268,16 @@ pre {
 .video-frame,
 .youtube-frame,
 .image-frame {
+  display: block;
+  max-width: 100%;
   border: 0;
   border-radius: var(--radius-small);
   background: #1a1a1a;
 }
 
 .video-frame {
+  width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
 }
 
