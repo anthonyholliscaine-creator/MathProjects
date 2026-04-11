@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MNIST Classification Notes | Math Simulations</title>
+  <meta name="description"
+    content="Project notes on exploring MNIST digit classification with SVD and future machine learning comparisons." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <main class="page-shell">
+    <a class="back-link" href="../index.html">← Back to homepage</a>
+
+    <header class="page-header">
+      <p class="eyebrow">MNIST project journal</p>
+      <h1>MNIST digit classification</h1>
+      <p class="lede">
+        This page is a running notebook-style summary of the project: what
+        data is being used, what ideas are being tested, and where the work
+        may go next. The current starting point is an SVD-based approach to
+        handwritten digit recognition, with room to compare it to later
+        machine learning models.
+      </p>
+
+      <!-- <div class="meta-grid"> -->
+      <div class="meta-item">
+        <p class="meta-label">Working notebook</p>
+        <p><code>examples/MNIST_playground.ipynb</code></p>
+      </div>
+      <!-- </div> -->
+
+      <div class="page-actions">
+        <a class="button button-primary" href="../examples/MNIST_playground.ipynb">
+          Open Notebook
+        </a>
+        <a class="button button-secondary" href="../data/mnist/mnist_preview.png">
+          Open Preview Image
+        </a>
+      </div>
+    </header>
+
+    <section class="showcase-grid mnist-layout">
+      <article class="panel">
+        <div class="panel-header">
+          <h2>Digit Classifier (simple computer vision)</h2>
+          <span class="badge">In progress</span>
+        </div>
+        <p>
+          <strong>Who is the intended audience?</strong>
+          While SVD is a more advanced linear algebra topic, I write this for a general
+          audience and will try to keep the math light and intuitive.
+          Feel free to email me (or come to office hours if you're a student) if you want to talk through the math or
+          code in more detail.
+        </p>
+        <p>
+          The MNIST data set consists of 70,000 images of handwritten digits.
+          Each image is a 28x28 grid of pixels (black and white intensities).
+          Here are some sample images from the training set:
+          <img class="image-frame" src="../data/mnist/mnist_preview.png"
+            alt="Preview of MNIST handwritten digit samples" />
+
+        </p>
+        <p>
+          <strong>SVD Baseline</strong>
+
+          To begin, we want get a baseline of how well Singular Value Decomposition (SVD) can classify the digits.
+          (In the stats/comp sci world, SVD is also called PCA - Principal Component Analysis.)
+
+          To do this we need to "vectorize" and sort the training images by digit.
+          For example, there are 5,923 training images of the digit "0", and we convert each \(28\times 28=784\) pixel
+          image
+          to a 784-length vector
+          to make a 5923x784 matrix where each row
+          is a vectorized "0" image.
+          We shall call this matrix \(A_0\) since it is the data for the digit "0".
+          We can do the same for each digit, giving us 10 matrices \(A_0, A_1, \ldots, A_9\).
+        </p>
+        <p>The two facts we want to exploit are:</p>
+        <ul>
+          <li><u>Images have a lot of unnecessary pixels</u></li>
+          <li><u>The images of the same digit are similar</u></li>
+        </ul>
+        <p>
+          For example, the first 6 images of "0" in \(A_0\) are:
+          <img class="image-frame" src="../media/images/zeros.png"
+            alt="Preview of the first 6 '0' digit samples in the MNIST training set" />
+        </p>
+        <p>
+          We can see lots of similarity across the "0" images.
+          Many pixels are always black and
+          the relevant information is centred in the middle of the image, just to name a few observations.
+          Exploiting these facts is the key to SVD's ability to classify the digits.
+        </p>
+        <p>
+          <strong>A little bit of Intuition/Explanation:</strong>
+          A matrix can be though of as a function from \(n\)-dimensional space to \(m\)-dimensional space.
+          <i>
+            Think of casting a shadow from a 3D object to the 2D ground.
+          </i>
+
+          Or, maybe a more apt question in this case is:
+          <i>Given a 2D shadow, what is the most likely 3D object that created it?</i>
+          <br>
+          In any case, we have a 784-dimensional space of pixel values,
+          and we want to find the most likely digit that could have created a given image.
+          <!-- (In fact computers use matrices to do exactly this kind of thing when they render 3D graphics on a 2D screen.)
+          Continuing with this shadow analogy, not all dimensions of the 3D object may matter, and the shadow may be
+          well-approximated by a simpler object (like a 2D silhouette).-->
+          The math can get a little deep here but the take away is that
+          SVD is a way to find the "most important" features of a vector.
+
+
+          The first "singular vector" (or "principal component") of the matrix \(A_0\)
+          is the single vector that "best represents" all the "0" images.
+          Each additional vector captures the next most important feature of the data, and so on.
+          Let's see this with an example.
+        </p>
+        <p>
+          Here are the first 2 Principal Components of the "0" matrix \(A_0\):
+          <img class="image-frame" src="../media/images/PCA0.png"
+            alt="Preview of the first 2 singular vectors of the '0' digit matrix in the MNIST training set" />
+
+          <br>
+          <strong>The first PC captures the overall shape of the "0" digit.</strong>
+
+          <br>
+          It's smoother than the first 6 images in the training set because it's sort of an average.
+          It's also more round.
+          Do you notice how many of even the first six 0 digits in the training set
+          seem to slant along the southwest to northeast diagonal.
+
+          <br>
+          <strong>The second PC captures the typical SW to NE slanting</strong> .
+
+          <br>
+          We can demonstrate this by taking a weighted average of the first two PCs:
+          \[\text{NewImage} = (1-\alpha) \cdot \text{PC1} + \alpha \cdot \text{PC2},
+          \quad 0 \le \alpha\le 1\]
+          where \(\alpha\) controls how much of the second PC's slanting feature we add to the first
+          PC.
+
+          Here is an example using \(\alpha=0.2\):
+          <img class="image-frame" src="../media/images/avgPC0.png" alt="Example of a weighted average of the first two principal components of 
+              the '0' digit matrix in the MNIST training set, showing 
+              how the second PC adds a slanting feature to 
+              the first PC's overall shape." />
+
+          <br>
+          To get a sense of how adding PC2 does this,
+          scan your eyes from the NW corner of PC2 to the SE corner and notice the extreme
+          black/white variation along that diagonal.
+          The black pixels in that variation subtract (or turn off) pixels.
+          So, when we add PC2 to PC1, we are turning down/off pixels in the black regions and
+          brightening pixels where PC2 is bright.
+        </p>
+        <p>
+          We can demonstrate this for various \(\alpha\) values:
+          <img class="image-frame" src="../media/images/difAvgPC0.png" alt="various alpha averages of first two PCs" />
+        </p>
+
+      </article>
+
+      <!-- <div class="stack">
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Dataset preview</h2>
+            <span class="badge">Local asset</span>
+          </div>
+          <p>
+            A quick visual check of the MNIST data helps ground the later
+            experiments.
+          </p>
+
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Notebook link</h2>
+            <span class="badge">Jupyter</span>
+          </div>
+          <p>
+            The notebook contains the active exploratory work for this
+            project. On the website it will open as a raw <code>.ipynb</code>
+            file, which is useful as a direct download or for opening in
+            Jupyter locally.
+          </p>
+          <a class="button button-secondary" href="../examples/MNIST_playground.ipynb">
+            Download Notebook File
+          </a>
+        </article>
+      </div> -->
+    </section>
+
+    <section class="resource-grid">
+      <article class="note-card">
+        <h3>Possible narrative for this page</h3>
+        <ul class="resource-list">
+          <li>Why MNIST is still a good first dataset for experimentation.</li>
+          <li>How SVD can compress and structure image information.</li>
+          <li>What classification rule is being tested and how well it works.</li>
+          <li>What changes when the project moves to neural networks.</li>
+        </ul>
+      </article>
+
+      <article class="resource-card">
+        <h3>Good next additions</h3>
+        <ul class="resource-list">
+          <li>Add a short accuracy summary once the first method is stable.</li>
+          <li>Include a confusion matrix or misclassified examples image.</li>
+          <li>Export the notebook to HTML later if you want it readable in-browser.</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</body>
+
+</html>

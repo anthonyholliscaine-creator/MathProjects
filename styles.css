@@ -91,7 +91,12 @@ pre {
 .showcase-grid {
   display: grid;
   gap: 1.5rem;
+  align-items: start;
   grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.95fr);
+}
+
+.mnist-layout {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .hero-copy,
@@ -261,8 +266,8 @@ pre {
 }
 
 .video-frame,
-.youtube-frame {
-  width: 100%;
+.youtube-frame,
+.image-frame {
   border: 0;
   border-radius: var(--radius-small);
   background: #1a1a1a;
@@ -274,6 +279,13 @@ pre {
 
 .youtube-frame {
   aspect-ratio: 16 / 9;
+}
+
+.image-frame {
+  display: block;
+  height: auto;
+  margin: 1rem 0;
+  max-width: 100%;
 }
 
 .placeholder {
@@ -290,6 +302,7 @@ pre {
 .stack {
   display: grid;
   gap: 1rem;
+  align-self: start;
 }
 
 .resource-grid {
