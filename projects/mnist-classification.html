@@ -64,14 +64,15 @@
           The MNIST data set consists of 70,000 images of handwritten digits.
           Each image is a 28x28 grid of pixels (black and white intensities).
           Here are some sample images from the training set:
-          <img class="image-frame" src="../data/mnist/mnist_preview.png"
+          <img class="image-frame" src="../media/images/mnist_preview.png"
             alt="Preview of MNIST handwritten digit samples" />
 
         </p>
         <p>
-          <strong>SVD Baseline</strong>
+          <strong>SVD Baseline: </strong>
 
-          To begin, we want get a baseline of how well Singular Value Decomposition (SVD) can classify the digits.
+          Singular Value Decomposition (SVD) is not Machine Learning or Neural Networks, but can classify the digits
+          reasonably well. Let's establish this baseline and maybe this project will evolve to non-linear ML methods.
           (In the stats/comp sci world, SVD is also called PCA - Principal Component Analysis.)
 
           To do this we need to "vectorize" and sort the training images by digit.
@@ -138,8 +139,8 @@
 
           <br><br>
           PC2 looks very different with regard to the greyscale pattern.
-          Look back at the first 6 images of "0" in \(A_0\). Do you notice how many of even the first six 0 digits in
-          the training set
+          Look back at the first 6 images of "0" in \(A_0\).
+          Do you notice how many of them
           seem to slant along the southwest to northeast diagonal?
 
           <br><br>
@@ -147,7 +148,7 @@
           <strong>The second PC can exaggerate/suppress the typical SW to NE slanting</strong> .
           This is what I mean when I say "Each additional vector captures the next most important feature of the data."
           Apparently, that slanting of the digit is the most important feature, once the general shape is pinned
-          down.
+          down (i.e. after knowing PC1).
 
 
           <br><br>
@@ -189,7 +190,7 @@
           What I hope to make clear with these examples is that simply taking
           a linear combination of the first two PCs can give us a wide variety of
           "0" images.
-          Mathematically, we have compressed the 784 pixel information for each 0 digit image to just two dimensiont:
+          Mathematically, we have compressed the 784 pixel information for each 0 digit image to just two dimensions:
           how much PC1 and PC2 to add.
 
           <br><br>
@@ -201,9 +202,30 @@
             If you want to test your understanding, try to imagine how the black/white space of each PC pair morph the
             digit.
           </strong>
-          (For example, look at the digit 2's PCs, what key difference do you see it picking up on?)
+          (For example, the PCs of digit 2 seem to imply the most significant variation in 2 shape is whether one writes
+          the bottom left corner of their 2
+          with a loop or a cusp.)
 
         </p>
+
+        <p>
+          <strong>How to build a Classifier: </strong>
+          Each /(28\times 28 = 784\) image is thought of as a vector in \(\mathbb{R}^{784}\). Importantly,
+          \(\mathbb{R}^{n}\) has an
+        <ul>inner product</ul> structure. (For the general audience, an "inner product" is a way to quickly measure how
+        similar two vectors are. Vectors that are perpendicular, will inner product to zero.)
+
+        The first image in our test set looks like
+        <img class="image-frame" src="../media/images/test1.png" alt="First digit image in training set" />
+
+        If we simply inner product the vectorized version of this image with the first principal component of each
+        digit, we get the following list:
+
+        [ 302, -298, -96, 196, 247, -379, -7, -44, 86, 320]
+
+        Using the Principal Components of each digit, we need to choose how many we care about.
+        </p>
+
       </article>
 
       <!-- <div class="stack">
