@@ -160,7 +160,8 @@
           where \(\alpha\) controls how much of the second PC's slanting feature we add (or subtract) to the first
           PC.
 
-          Here is an example for various \(\alpha\) values:
+          Below is an example for various \(\alpha\) values, notice how positive \(\alpha\) increase slanting and
+          negative \(\alpha\) decrease it.
           <img class="image-frame" src="../media/images/difAvgPC0.png" alt="various alpha averages of first two PCs" />
 
           <!-- Here is an example using \(\alpha=0.2\):
@@ -229,11 +230,12 @@
           </li>
           <li>Let \(P_{d,m}\) be the projection map to that space.</li>
           <li>
-            Given a text image, \(x\) we compute each of
+            Given a test image, \(x\) we compute each of error between the true image and its projection onto
+            \(P_{d,m}\):
             \[
-            ||x-P_{0,m}x||^2,\ ||x-P_{1,m}x||^2,\ \cdots, ||x-P_{9,m}x||^2
+            ||x-P_{0,m}x||^2,\ ||x-P_{1,m}x||^2,\ \cdots, ||x-P_{9,m}x||^2.
             \]
-            and classify \(x\) to be digit \(d\) where
+            We and classify \(x\) to be digit \(d\) where
             \[
             d = \arg\min_k ||x-P_{k,m}x||^2
             \]
@@ -247,11 +249,11 @@
 
         <br>
 
-        <strong>From the Confusiont Matrix</strong> we can see that every test digit is classified accurately atleast
+        <strong>From the Confusion Matrix</strong> we can see that every test digit is classified accurately atleast
         93% of the time and some digits, like 9 and 2,
         are harder to correctly classify.
 
-        There was nothing special about 20PCs and we can iterate this process to see how using different number of
+        There was nothing special about 20PCs and we can iterate this process to see how using different numbers of
         Principal Components influences the overally accuracy, both by digit and as an average.
 
         <img src="../media/images/PCvAccur.png" alt="Accuracy vs. number of principal components"
@@ -281,9 +283,10 @@
         <br>
 
         Here we can see the poor performance of the digit 5. It's correctly labelled only 65% of the time and is most
-        often confused for 3. While this makes sense, I was genuinely expectiong a decent amount of 5's being mislabeled
-        as 6, but that only happens 3.5% of the time. Another feature I findinteresting is how the confusion matrix is
-        not symmetric. For example, we are almost twice as likely to classify an 8 as a 3 (9.3%) vs classify a 3 as an 8
+        often confused for 3. While this makes sense, I was expection a decent amount of 5's to be mislabeled
+        as 6, but that only happens 3.5% of the time. Another feature I find interesting is the level of asymmetry in
+        the confusion matrix. For example, we are almost twice as likely to classify an 8 as a 3 (9.3%) vs classify a 3
+        as an 8
         (5.5%). What stands out to you about this project?
 
         <!-- <strong>A Hypothesis:</strong>
