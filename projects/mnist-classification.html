@@ -23,9 +23,8 @@
       <p class="eyebrow">MNIST project journal</p>
       <h1>MNIST digit classification</h1>
       <p class="lede">
-        This page is a running notebook-style summary of the project: what
-        data is being used, what ideas are being tested, and where the work
-        may go next. The current starting point is an SVD-based approach to
+        This page is a running notebook-style summary of the project. The current starting point is an SVD-based
+        approach to
         handwritten digit recognition, with room to compare it to later
         machine learning models.
       </p>
@@ -127,10 +126,11 @@
         </p>
         <p>
           Here are the first 2 Principal Components of the "0" matrix \(A_0\):
-          <img class="image-frame" src="../media/images/PCA0.png"
+          <img class="image-frame" src="../media/images/PCA0color.png"
             alt="Preview of the first 2 singular vectors of the '0' digit matrix in the MNIST training set" />
 
           <br>
+
           <strong>The first PC captures the overall shape of the "0" digit.</strong>
 
           <br>
@@ -138,7 +138,9 @@
           It's a very clear on/off white/black pattern that captures the overall shape of the "0" digit.
 
           <br><br>
-          PC2 looks very different with regard to the greyscale pattern.
+          PC2 (and beyond) we introduce color because there are positive and negative values in the \(28\times
+          28\) grid. This is because while the first PC will be the general shape, PCs beyond the first one will be
+          features you can add or subtract to change the image.
           Look back at the first 6 images of "0" in \(A_0\).
           Do you notice how many of them
           seem to slant along the southwest to northeast diagonal?
@@ -154,8 +156,8 @@
           <br><br>
           We can demonstrate this by taking a weighted average of the first two PCs:
           \[\text{NewImage} = (1-\alpha) \cdot \text{PC1} + \alpha \cdot \text{PC2},
-          \quad 0 \le \alpha\le 1\]
-          where \(\alpha\) controls how much of the second PC's slanting feature we add to the first
+          \quad -1 \le \alpha\le 1\]
+          where \(\alpha\) controls how much of the second PC's slanting feature we add (or subtract) to the first
           PC.
 
           Here is an example for various \(\alpha\) values:
@@ -172,12 +174,12 @@
             To get a sense of how adding PC2 does this,
           </strong>
           scan your eyes from the NW corner of PC2 to the SE corner and notice the extreme
-          black/white variation along that diagonal.
-          The black pixels in that variation subtract (or turn off) pixels.
-          So, when we add PC2 to PC1, we are turning down/off pixels in the black regions and
-          brightening pixels where PC2 is bright.
+          positive/negative (green/purple) variation along that diagonal.
+          The purple pixels in that variation subtract (or turn off) pixels.
+          So, when we add PC2 to PC1, we are turning down/off pixels in the purple regions and
+          brightening pixels where PC2 is green.
         </p>
-        <p>
+        <!-- <p>
           For the exact same reason, we can take away the slanting feature by using a negative \(\alpha\) value:
           \[\text{NewImage} = (1-\alpha) \cdot \text{PC1} - \alpha \cdot \text{PC2},
           \quad 0 \le \alpha\le 1\]
@@ -185,13 +187,13 @@
           <img class="image-frame" src="../media/images/PC1mPC2.png"
             alt="various neg alpha averages of first two PCs" />
 
-        </p>
+        </p> -->
         <p>
           What I hope to make clear with these examples is that simply taking
           a linear combination of the first two PCs can give us a wide variety of
           "0" images.
-          Mathematically, we have compressed the 784 pixel information for each 0 digit image to just two dimensions:
-          how much PC1 and PC2 to add.
+          Mathematically, we have compressed the 784 pixel information for each 0 digit image to just two dimensions.
+          Namely, how much PC1 and PC2 to add.
 
           <br><br>
           Here are the first 2 PCs for each digit (other than zero):
@@ -199,64 +201,99 @@
 
 
           <strong>
-            If you want to test your understanding, try to imagine how the black/white space of each PC pair morph the
+            If you want to test your understanding, try to imagine how the green/purple space of each PC pair morph the
             digit.
           </strong>
-          (For example, the PCs of digit 2 seem to imply the most significant variation in 2 shape is whether one writes
+          For example, the PCs of digit 2 seem to imply the most significant variation in 2 shape is whether one writes
           the bottom left corner of their 2
-          with a loop or a cusp.)
+          with a loop or a cusp. We can see this in PC2: The purple appears to suppress the "loop-style" and the green
+          enhances the "cusp-style" of writing that digit. (You may notice that for many of the other digits, the main
+          variation is simply how upright/slanted one writes thier numbers.)
 
         </p>
 
         <p>
           <strong>How to build a Classifier: </strong>
-          Each /(28\times 28 = 784\) image is thought of as a vector in \(\mathbb{R}^{784}\). Importantly,
+          Each \(28\times 28 = 784\) image is thought of as a vector in \(\mathbb{R}^{784}\). Importantly,
           \(\mathbb{R}^{n}\) has an
-        <ul>inner product</ul> structure. (For the general audience, an "inner product" is a way to quickly measure how
-        similar two vectors are. Vectors that are perpendicular, will inner product to zero.)
+          <u>inner product</u> structure and we can therefore project onto subspaces.
+          (For the general audience, an "inner product" is a way to quickly measure components, the parts of a whole.)
 
-        The first image in our test set looks like
-        <img class="image-frame" src="../media/images/test1.png" alt="First digit image in training set" />
+          For each digit matrix \(A_d\), we
+          have a list of Principal Components (a.k.a singular vectors),
+          you've seen the first 2 PCs for each digit up above.
+          The steps are
+        <ul>
+          <li>Pick a number \(1\le m\le 784\) and use \(m\)-many of the PCs for each \(A_d\) to make a \(d\)-digit
+            subspace.
+          </li>
+          <li>Let \(P_{d,m}\) be the projection map to that space.</li>
+          <li>
+            Given a text image, \(x\) we compute each of
+            \[
+            ||x-P_{0,m}x||^2,\ ||x-P_{1,m}x||^2,\ \cdots, ||x-P_{9,m}x||^2
+            \]
+            and classify \(x\) to be digit \(d\) where
+            \[
+            d = \arg\min_k ||x-P_{k,m}x||^2
+            \]
+          </li>
+        </ul>
+        Doing this with \(m=20\) PCs we get the following confustion matrix
+        <p align="center">
+          <img src="../media/images/confusionMatrix.png" alt="Confusion Matrix">
+        </p>
 
-        If we simply inner product the vectorized version of this image with the first principal component of each
-        digit, we get the following list:
 
-        [ 302, -298, -96, 196, 247, -379, -7, -44, 86, 320]
+        <br>
 
-        Using the Principal Components of each digit, we need to choose how many we care about.
+        <strong>From the Confusiont Matrix</strong> we can see that every test digit is classified accurately atleast
+        93% of the time and some digits, like 9 and 2,
+        are harder to correctly classify.
+
+        There was nothing special about 20PCs and we can iterate this process to see how using different number of
+        Principal Components influences the overally accuracy, both by digit and as an average.
+
+        <img src="../media/images/PCvAccur.png" alt="Accuracy vs. number of principal components"
+          style="display:block; margin:1rem auto; max-width:100%; height:auto;">
+
+        <strong>We can see from the Accuracy Plots</strong> a few interesting insights.
+
+        <ul>
+          <li>
+            First, our overall accuracy is above 90% with as little as 3 principal components. This is a huge data
+            compression. With 90% accuracy we can compress a 784 length array into 3 numbers, the weights on each of the
+            first 3 principal components. (Albiet, the compression is more like 784 \(\to\) 30 since we need 3 weights
+            for each digit).
+          </li>
+          <li>
+            If we look at the accuracy vs. digit plot, we see the digits we most accurately classify are 0 and 1,
+            followed by 4 and 6. Moreover, digit 5 has the worst accuracy for low dimensional projections.
+          </li>
+        </ul>
+
+        <strong>Performance with 1 PC:</strong>
+        Seeing how diverse the accuracy is by digit for a single principal component, I also decided to build a
+        confusion matrix for a single PC classifier.
+
+        <img src="../media/images/confusionMatrix1pc.png" alt="Confusion with 1pc">
+
+        <br>
+
+        Here we can see the poor performance of the digit 5. It's correctly labelled only 65% of the time and is most
+        often confused for 3. While this makes sense, I was genuinely expectiong a decent amount of 5's being mislabeled
+        as 6, but that only happens 3.5% of the time. Another feature I findinteresting is how the confusion matrix is
+        not symmetric. For example, we are almost twice as likely to classify an 8 as a 3 (9.3%) vs classify a 3 as an 8
+        (5.5%). What stands out to you about this project?
+
+        <!-- <strong>A Hypothesis:</strong>
+        I believe the poor classification of 5 may have to do with high levels of confusing 5 with 6, 8 and 3. I am
+        writing this before testing my hypothesis, so let's build a confusion matrix for a single (one dimensional) PC
+        classifying. (Moreover, if this is true then one can imagine expanding beyond SVD to things like persistent
+        homology, that will allow us to count the loops of a number, and use that information in the classifier.) -->
         </p>
 
       </article>
-
-      <!-- <div class="stack">
-        <article class="panel">
-          <div class="panel-header">
-            <h2>Dataset preview</h2>
-            <span class="badge">Local asset</span>
-          </div>
-          <p>
-            A quick visual check of the MNIST data helps ground the later
-            experiments.
-          </p>
-
-        </article>
-
-        <article class="panel">
-          <div class="panel-header">
-            <h2>Notebook link</h2>
-            <span class="badge">Jupyter</span>
-          </div>
-          <p>
-            The notebook contains the active exploratory work for this
-            project. On the website it will open as a raw <code>.ipynb</code>
-            file, which is useful as a direct download or for opening in
-            Jupyter locally.
-          </p>
-          <a class="button button-secondary" href="../examples/MNIST_playground.ipynb">
-            Download Notebook File
-          </a>
-        </article>
-      </div> -->
     </section>
 
     <section class="resource-grid">
