@@ -120,6 +120,10 @@ pre {
   padding: 2rem;
 }
 
+.hero-card {
+  min-height: 100%;
+}
+
 .hero-copy h1,
 .page-header h1 {
   font-size: clamp(2.8rem, 6vw, 5.4rem);
@@ -172,6 +176,51 @@ pre {
 .panel h2,
 .panel h3 {
   font-size: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.hero-slideshow {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.slideshow-frame {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.slideshow-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.slideshow-image.is-active {
+  opacity: 1;
+}
+
+.slideshow-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.slideshow-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: rgba(29, 39, 51, 0.2);
+}
+
+.slideshow-dot.is-active {
+  background: var(--accent);
 }
 
 .feature-list,
@@ -332,5 +381,9 @@ pre {
   .simulation-card {
     flex-direction: column;
     align-items: start;
+  }
+
+  .slideshow-frame {
+    min-height: 360px;
   }
 }
