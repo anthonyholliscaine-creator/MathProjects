@@ -12,7 +12,7 @@ Project context, goals, and deployment notes are also stored in `AGENTS.md`.
 - `styles.css` contains the layout and visual styling.
 - `scripts/site.js` adds small interactions and auto-loads example code.
 - `examples/lorenz.py` is the sample Python file shown on the simulation page.
-- `examples/cpu_sph_region.py` is your imported Manim example.
+- `examples/FluidAverageValue.py` is your imported Manim example.
 - `media/videos/` is where you can place local MP4 files.
 - `media/images/` is available for posters, diagrams, or thumbnails.
 

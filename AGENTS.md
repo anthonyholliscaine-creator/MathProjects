@@ -13,7 +13,7 @@ The immediate goal is to publish the site on GitHub Pages and use it as a lightw
 - `scripts/site.js`: loads Python source files into syntax-highlighted code blocks
 - `projects/parabola-average.html`: hosted example page using a real Manim animation
 - `projects/lorenz-attractor.html`: reusable template/example page
-- `examples/cpu_sph_region.py`: imported Manim source file
+- `examples/FluidAverageValue.py`: imported Manim source file
 - `examples/lorenz.py`: sample Python example
 - `media/videos/parabola_avg.mp4`: hosted MP4 for the parabola average-value animation
 
@@ -42,7 +42,7 @@ The main real example at the moment is:
 
 This page uses:
 
-- `examples/cpu_sph_region.py`
+- `examples/FluidAverageValue.py`
 - `media/videos/parabola_avg.mp4`
 
 The animation shows a parabola, a particle-based fill of the region, and a horizontal line corresponding to the average value.
